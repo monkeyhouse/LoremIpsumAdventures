@@ -1,0 +1,56 @@
+﻿@* Note: pair script wiht previe w modal, requires *@
+<script>
+
+    $(document).ready(function () {
+
+        var bindTooltips = function () {
+
+            if ($.tooltipster) {
+                // gen content for each
+                $('.preview-marker').tooltipster({
+                    interactive: true,
+                    hideOnClick: true,
+                    position: 'bottom-left',
+                    offsetY: -10,
+                    theme: 'tooltipster-shadow',
+                    functionInit: function (origin, content) {
+                        var storyId = $(origin).attr('story-id');
+
+                        return $('<span><a class="btn btn-link preview-modal"  story-id="' + storyId + '">Preview </a>')
+                    }
+                });
+            }
+
+
+        }
+
+        $(document).on('click', '.preview-modal, .modal-preview-marker', function (e) {
+            var el = $(this);
+            var storyId = el.attr("story-id");
+
+            $.get('@Url.Action("Preview", "Read")', { storyId: storyId }).success(function (result) {
+
+                var content = $('<div>').html(result);
+                $('#previewModalHeader').html(content.find("#Title"));
+
+                $('#previewModelbody').html(content.find("#Content"));
+
+                $('#previewModalPlay').attr('href', '@Url.Action("Play","Read")/' + storyId);
+
+            })
+            .fail(Up.ErrorNotice);
+
+            $('#Preview').modal();
+
+            e.preventDefault();
+            e.stopPropogation();
+            return false;
+        });
+     
+        //init
+        bindTooltips();
+
+        window.BindToolTips = bindTooltips;
+    });
+
+</script>

@@ -1,0 +1,225 @@
+﻿@using Models.Profile;
+@model ProfileSummaryOuterVm
+
+@{
+    ViewData["Title"] = Model.User.Name;
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>
+            @Model.User.Name
+        </h2>
+
+        <p class="text-muted">
+            @if (Model.User.LastActive.AddDays(30) > DateTime.Today)
+            {
+                <span>active within the last month</span>
+            }
+            else
+            {
+                <span>last active <span human-date="@Model.User.LastActive"></span></span>
+            }
+        </p>
+    </div>
+
+  
+</div>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="row inline-flex-sm flex-baseline full-width">
+            <div class="col-sm-7">
+                <h3>
+
+                    <select class="select-borderless" id="StoryScope">
+                <option value="@ProfileStoryScope.All">All Stories</option>
+                <option value="@ProfileStoryScope.Author">Primary Author</option>
+                <option value="@ProfileStoryScope.Coauthor">Collaboritve Stories</option>
+            </select>
+               
+                </h3>
+            </div>
+            <div class="col-sm-5 text-right-md" id="Stats">
+                @Html.Partial("ProfileStats", Model.Stats)
+            </div>
+
+        </div>
+       
+        <p></p>
+        <div id="Stories">
+            @Component.Invoke("StoriesVC", Model.User.UserId, Model.StoryScope, Model.StorySort)
+        </div>
+    </div>
+</div>
+
+
+
+<h3>Community</h3>
+
+<hr />
+<div class="row">
+    <div class="col-sm-6">
+        <h4>Following</h4>
+        <div class="list-group list-group-custom">
+            @foreach (var u in Model.Following)
+            {
+                <a asp-controller="Profile" asp-action="Summary" asp-route-userId="@u.Id" class="list-group-item">@u.Name</a>
+            }
+        </div>
+        <span class="pull-right"><a asp-controller="Profile" asp-action="Following">More</a></span>
+
+
+    </div>
+
+    <div class="col-sm-6">
+
+        <h4>Followers</h4>
+        <div class="list-group list-group-custom">
+            @foreach (var u in Model.Followers)
+            {
+                <a asp-controller="Profile" asp-action="Summary" asp-route-userId="@u.Id" class="list-group-item">@u.Name</a>
+            }
+        </div>
+      
+        <span class="pull-right"><a asp-controller="Profile" asp-action="Followers">More</a></span>
+    </div>
+</div>
+
+    <hr />
+
+
+    <div class="text-muted">
+        <p>
+            member for <span human-date="@Model.User.JoinDate" remove-suffix="true"></span>
+        </p>
+
+    </div>
+
+<!-- Preview Overlay -->
+@Html.Partial("PreviewModal")
+
+    @section scripts{
+        <script>
+            //init story scope selection
+            $('#StoryScope').val('@Model.StoryScope');
+
+            $('#StoryScope').change(function () {
+
+                var scope = this.value;
+                var url = '@Url.Action("GetStories")'
+                var url2 = '@Url.Action("GetStats")'
+                var data = {
+                    userId: '@Model.User.UserId',
+                    scope: scope,
+                    sort: 0
+                };
+                $.get(url, data, function (result) {
+                    $('#Stories').html(result);
+                    applyStoryTabs();
+                })
+
+                $.get(url2, data, function (result) {
+                    $('#Stats').html(result);
+
+                })
+
+
+            });
+
+            function applyStoryTabs() {
+
+                $('#StorySort li').click(function (e) {
+
+                    var sortVal = this.getAttribute('value');
+                    var scope =  $('#StoryScope').val();
+
+                    var url = '@Url.Action("GetStories")';
+                    var data = {
+                        userId: '@Model.User.UserId',
+                        scope: scope,
+                        sort: sortVal
+                    };
+
+                    $.get(url, data, function (response) {
+                        var result = $("<div>").html(response).find("#Stories");
+                        $("#Stories").html(result);
+                        applyStoryTabs();
+                    });
+
+                    //$(this).tab('show');
+                })
+
+                if (window.BindToolTips) {
+                    window.BindToolTips();
+                }
+            }
+
+            //init
+            applyStoryTabs();
+        </script>
+
+        @Html.Partial("PreviewScript") 
+    }
+
+
+@section styles{
+<style>
+    .br {
+        display: inline-block;
+        float: right;
+    }
+
+    .icon-stats {
+        display: flex;
+        flex-direction: row;
+        font-size: 1.3em;
+        color: grey;
+        flex-wrap: wrap;
+    }
+
+        .icon-stats > div {
+            text-align: center;
+            margin: 10px;
+            cursor: default;
+        }
+
+            .icon-stats > div > div {
+                font-size: .6em;
+                font-variant: small-caps;
+                text-align: center;
+            }
+
+    .list-group-custom a:first-of-type {
+        border-top: none;
+    }
+
+    .list-group-custom a {
+        border-left: 0;
+        border-right: 0;
+        color: #1ca8dd;
+    }
+
+        .list-group-custom a:hover {
+            cursor: pointer;
+        }
+
+    .icon-flexbox {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+        .icon-flexbox > span {
+            width: 4.5em;
+            color: #808080;
+        }
+
+    #StorySort li:hover {
+        cursor: pointer;
+    }
+</style>
+}

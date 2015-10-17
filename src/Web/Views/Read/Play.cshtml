@@ -1,0 +1,57 @@
+﻿@model string
+
+@{ 
+    ViewData["Title"] = "Donec id justo. Nunc nonummy metus.Pellentesque";
+}
+
+<!-- hidden Story Id -->
+<input type="hidden" value="2" id="StoryId" />
+<input type="hidden" value="11" id="PageOneId" />
+
+<script src="~/jspm_packages/system.js"></script>
+<script src="~/config.js"></script>
+<script>
+    System.paths =  {
+        "p/*": "/spa/playApp/*",
+        "github:*": "jspm_packages/github/*",
+        "npm:*": "jspm_packages/npm/*"
+    };
+
+    System.import("aurelia-bootstrapper");
+</script>
+
+<div aurelia-app="/spa/playApp/main">
+    <div class="splash">
+        <div class="message">Loading Story</div>
+        <i class="glyphicon glyphicon-tower glyphicon-loading-spinner"></i>
+    </div>
+</div>
+
+
+<div class="sm-hide small soft-label kbd-soft">
+    <ul class="list-unstyled">
+        Keyboard Hints:
+        <li> Press <kbd>enter</kbd> @*or <kbd>space</kbd>*@ to continue on title and cover screens
+        <li> Press <kbd>tab</kbd> or <kbd>shift+tab</kbd> to select an action,
+             Press <kbd>enter</kbd> @*or <kbd>space</kbd>*@ to select the action
+    </ul>
+
+    
+    <ul class="list-unstyled">
+        Cheats:
+    <li>  Use browser back button or
+        <kbd>Backspace</kbd>to navigate back ( if so need be adventurer )
+    </ul>
+
+    <ul class="list-unstyled">
+        Tips:
+        <li> Press <i class="glyphicon glyphicon-bookmark"></i> to bookmark the page to your profile
+        <li> Press <i class="glyphicon glyphicon-star"></i> to favorite a story
+</ul>
+
+</div>
+
+@section styles{
+    <link href="~/style/css/spa/aurelia.css" rel="stylesheet" />
+    <link href="~/style/css/spa/play.css" rel="stylesheet" />
+}

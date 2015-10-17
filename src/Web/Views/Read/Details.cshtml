@@ -1,0 +1,129 @@
+﻿@model Models.Reading.DetailsVm
+
+@{ 
+    ViewData["Title"] = Model.Story.Title;
+}
+
+<div class="row">
+    <div class="col-md-9 col-sm-8">
+        <h3>@Model.Story.Title</h3>
+
+        <div>
+            <span up-votes="@Model.Story.Likes" down-votes="@Model.Story.Dislikes"></span>
+            <span style="font-size:.9em; color:dimgrey">
+                published <span human-date="@Model.Story.PublishDate"></span> to @Model.Story.Genre
+            </span>
+        </div>
+
+        <br />
+        <p>
+            @Model.Story.Description
+        </p>
+
+        <div style="white-space:pre-line">@Model.Story.Summary</div>
+
+        <br />
+
+        <div>
+            <a asp-action="Play" asp-route-id="@Model.Story.Id" class="btn btn-primary btn-lg">Play</a>
+        </div>
+
+        @* Story Data like settings *@
+        @* Authors Notes? *@
+        @* Authors? *@
+        @* Metadata? *@            
+        @* X would reccomend *@
+        @* Comments? *@
+    </div>
+
+
+    @if (Model.Stats != null)
+    {
+        @* this section is displayed when user has played story *@
+        <div class="col-md-3 col-sm-4 help-block">
+
+            <hr />
+            <!--Stat s-->
+            <h4>My Playing Stats </h4>
+            <dt>
+                <dd># Plays      </dd><dl>  @Model.Stats.Plays</dl>
+                <dd># Endings Completed </dd><dl> @Model.Stats.EndingCompleted / @Model.Stats.EndingsAvailable </dl>
+                <dd>Total Duration    </dd><dl> @Model.Stats.MinutesPlayed min  </dl>
+            </dt>
+
+            @*<h3>
+                <i class="glyphicon glyphicon-thumbs-up"></i>
+                <i class="glyphicon glyphicon-thumbs-down"></i>
+            </h3>*@
+
+            <hr />
+
+            <div id='LikeOrDislike'>
+                <label ><input type="checkbox" value='a' checked="checked" name="setOne">Like <i class="glyphicon glyphicon-thumbs-up"></i></label>
+                <label><input type="checkbox" value='b' name="setOne">Dislike <i class="glyphicon glyphicon-thumbs-down"></i></label>
+
+            </div>
+
+            @*<select class="select-borderless">
+                <option value="0"> I have no opinon on this story </option>
+                <option value="1"> I like this story </option>
+                <option value="2"> I super like this story </option>
+                <option value="-1"> I dislike this story</option>
+            </select>*@
+
+            <!-- Like / Dislike -->
+            <!-- Favorite / Is it in Fav Collection ? -->
+            <!-- Active Bookmarks? -->
+
+            @*<div class="help-block">
+                Leave comments below in the forum
+            </div>*@
+
+        </div>
+    }
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-lg-10">
+        <h3>Reviews </h3>
+
+        DISCOURSE PLUGIN FOR COMMENTS
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/jquery.widgets.cbxradio.js"></script>
+    <script>
+        $('#LikeOrDislike').cbxRadio();
+    </script>
+}
+
+@section styles{
+    <style>
+
+    .cbxRadio label:hover{
+        cursor:pointer;
+    }
+
+    .cbxRadio label{
+      padding:.2em .5em;
+      border:1px solid lightgrey;
+      border-radius:5px;
+
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .cbxRadio input{
+        display:none;
+    }
+    .cbxRadio label.active{
+       color:white;
+        background-color:navy;
+    }
+    </style>
+}

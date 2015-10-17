@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+<script src="~/jspm_packages/system.js"></script>
+<script src="~/config.js"></script>
+<script>
+    var base = "";   //System.baseURL + "/Profile/Aurelia";
+    var noBase = ""; // System.baseURL + "../../";
+
+    System.baseURL = base;
+    System.paths =  {
+        "p/*": noBase + "/spa/profileApp/*",
+        "github:*": noBase + "jspm_packages/github/*",
+        "npm:*": noBase + "jspm_packages/npm/*"
+    };
+
+    System.import("aurelia-bootstrapper");
+    
+    /* ideal :
+
+    var base = System.baseURL + "/Profile/Aurelia";
+    var noBase =  System.baseURL + "../../";
+    System.baseURL = base;
+    System.paths =  {
+        "*": noBase + "/spa/profileApp/*",
+        "github:*": noBase + "jspm_packages/github/*",
+        "npm:*": noBase + "jspm_packages/npm/*"
+    };
+
+    */
+</script>
+
+<div aurelia-app="/spa/profileApp/main">
+
+    <div class="splash">
+        <div class="message">Loading Profile</div>
+        <i class="glyphicon glyphicon-star glyphicon-loading-spinner"></i>
+    </div>
+</div>
+
+
+@section styles{
+    <link href="~/style/css/spa/aurelia.css" rel="stylesheet" />
+}

@@ -1,0 +1,53 @@
+﻿ .navbar-default{
+        background-color:transparent;
+        border-color:transparent;
+
+        .navbar-nav > li {
+            > a {
+              
+               color: #1ca8dd;
+               border-radius:.4em;
+
+              &:focus, &:hover, &:active{
+                  font-weight: 500;
+                  background-color: #e3f5fb;
+              } 
+            }
+
+            &.active  > a { 
+                color: #ffffff;
+                background-color: #1ca8dd;
+                font-weight: 500;
+                
+                &:hover, &:focus{
+                    background-color: #1ca8dd;
+                }
+            }
+
+         
+            &.tq{
+              padding-top:20px;
+              padding-left: 15px;
+              padding-right: 15px;
+              margin-bottom: 5px;
+              @extend .soft-label; 
+            }
+        }
+
+  
+       
+    }
+
+
+ 
+    header{
+        .page-icon{
+            height:50px;
+        }
+    }
+
+    .page-top-pills{
+        font-size:1.5em;
+        display:inline-block;
+        vertical-align: bottom;
+    }

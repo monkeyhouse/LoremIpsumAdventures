@@ -1,0 +1,53 @@
+/* spa seific*/
+.grid-sm {
+  max-width: 400px; }
+  .grid-sm .row {
+    padding-top: .2em;
+    padding-bottom: .2em; }
+
+/* body */
+div[aurelia-app] {
+  padding: 10px 0; }
+
+/* loading (splash) screen */
+.splash {
+  text-align: center;
+  font-size: 4em;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: purple;
+  text-shadow: 2px 2px 2px #333;
+  opacity: .4; }
+
+.spin, .glyphicon-spinner, .glyphicon-loading-spinner {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear; }
+
+.spin-offeset, .glyphicon-spinner, .glyphicon-loading-spinner {
+  -webkit-transform-origin: 50% 53%;
+  transform-origin: 50% 53%; }
+
+.glyphicon-spinner, .glyphicon-loading-spinner {
+  font-size: 1em; }
+
+.glyphicon-loading-spinner {
+  font-size: 5em; }
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg); }
+  to {
+    -moz-transform: rotate(359deg); } }
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(359deg); } }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }

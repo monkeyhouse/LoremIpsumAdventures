@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | Adventure Time</title>
+
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/style/css/site.css" />
+        <link rel="stylesheet" href="~/lib/toastr/toastr.css"  />
+    </environment>
+   
+
+    @RenderSection("styles", required:false )
+</head>
+<body>
+    <div class="container">
+        <header class="row">
+            <span class="inline-flex padded pull-right">
+
+                <span>Username</span>
+                <span style="font-size: 18px;" href="#"><span style="font-size: 12px; background-color: #cc2200;" class="badge">358</span><span class="glyphicon glyphicon-bell"></span></span>
+                <a href="#profile"><img src="~/images/main/dummies/user.png" class="profile-icon" /> </a>
+            </span>
+
+
+        </header>
+        
+       
+        <div class="row">
+            
+                <div class="col-sm-3 col-md-2">
+                    @*<cache vary-by-user="true">*@
+                        @Html.Partial("MainMenu")
+                    @*</cache>*@
+
+                </div>
+            <div class="col-sm-9 col-md-10">
+                <div class="soft-caps hidden-xs title-soft">Adventure Time  |  @ViewData["Title"]</div>
+
+
+                <div class="container-fluid">
+                    <div class="row" id="MainContent">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+</div>
+
+    </div>
+    <hr />
+    <footer></footer>
+
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/lib/hammer.js/hammer.js"></script>*@
+
+        <script src="~/js/global.js"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+
+    <!-- Script for client side rendering -->
+    <script src="~/lib/moment/moment.js"></script>
+    <script src="~/lib/toastr/toastr.js"></script>
+  
+    <!-- Hack to add some margin to top of each page --> 
+    <script>
+        $('#MainContent *').first().addClass('top-element');
+    </script>
+</body>
+</html>

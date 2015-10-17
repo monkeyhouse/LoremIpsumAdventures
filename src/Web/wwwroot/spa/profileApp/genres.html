@@ -1,0 +1,45 @@
+﻿<template>
+        
+    <form class="panel text-center" submit.delegate="search()" style="box-shadow:none; margin-bottom:0;">
+        <div class="form-group panel-body" style="margin-bottom:0;">
+            <div class="row">
+                <div class="col-xs-10 col-md-7 col-lg-5 input-group" style="margin-bottom:0;">
+
+                    <input type="text" value.bind="searchText" placeholder="Search for genres" class="form-control input-lg">
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10 col-md-7 col-lg-5 input-group">
+                    <div class="help-block small pull-left">
+                        Filter genres by name and description
+
+                        <!--<button class="btn btn-link pull-right">Advanced Search</button>-->                           
+                        <select  class="select-borderless" value.bind="selectedOpt" >
+                            <option repeat.for="op of filterOpts" model.bind="op">${op.text}</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <!--subtext : filter genres by name and description -->
+
+    <div class="row">
+
+        <div class="panel-body col-md-12 col-lg-10 "  repeat.for="g of genres">           
+            <div class="pull-right">
+                <i click.trigger="$parent.favorite(g)" class.bind="g.isFav ? 'glyphicon glyphicon-star favicon' : 'glyphicon glyphicon-star-empty favicon' "></i>
+            </div>
+            <strong>${g.name}</strong>
+            ${g.desc}
+        </div>
+    </div>
+
+</template>

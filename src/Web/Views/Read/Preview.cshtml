@@ -1,0 +1,35 @@
+﻿@model Models.Reading.PreviewVm
+
+<div id="Title">
+    @Model.Title
+</div>
+<div id="Content">
+
+    <ul class="nav nav-pills ">
+        <li class="active"><a data-toggle="tab" href="#page_Summary">Summary</a></li>
+
+        @foreach (var p in Model.Pages) {
+                <li><a data-toggle="tab" href="#page_@(p.PageNumber)">Page @p.PageNumber</a></li>
+            }
+    </ul>
+   
+    <div class="tab-content">
+        <div id="page_Summary" class="tab-pane active">
+            <div class="panel-body" style="white-space:pre-line">@Model.Summary</div>
+        </div>
+
+        @foreach (var p in Model.Pages)
+            {
+                <div id="page_@p.PageNumber" class="tab-pane">
+
+                    <div class="panel-body" style="white-space:pre-line">@p.Body</div>
+
+                    @foreach (var a in p.Actions){
+                        <button class="btn btn-default " style="white-space:normal; text-align:left; width:98%; margin: 2px 1%;" type="button" disabled>@a</button>
+                    }
+                </div>
+            } 
+
+    </div>
+
+</div>

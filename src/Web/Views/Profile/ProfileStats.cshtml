@@ -1,0 +1,29 @@
+﻿@model Models.Profile.StoriesStatsVm
+
+
+<div class="icon-stats">
+    <div title="@Model.InProgress In Progress">
+        @Model.InProgress
+        <span class="glyphicon glyphicon-pencil"></span>
+        <div>Progress</div>
+    </div>
+
+
+    <div title="@Model.Published Published">
+        @Model.Published
+        <span class="glyphicon glyphicon-book"></span>
+        <div>Published</div>
+    </div>
+
+
+    <div title="@Model.Favs Favorites">
+        @Model.Favs <span class="glyphicon glyphicon-heart"></span>
+        <div>Favorites</div>
+    </div>
+    <div title="@Model.Likes Likes">
+        @Model.Likes <span class="glyphicon glyphicon-thumbs-up"></span>
+        <div>Likes</div>
+    </div>
+
+</div>
+

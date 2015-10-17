@@ -1,0 +1,39 @@
+/* spa seific*/
+@media (min-width: 768px) {
+  .container-story {
+    margin: 0 0 2.5em 0;
+    padding: 2px;
+    display: inline-block;
+    min-width: 600px; } }
+
+.panel-story {
+  border: none; }
+
+.panel-story {
+  /*margin: 1em;*/
+  /*box-shadow: 1px 1px 8px 3px lightgrey;*/ }
+  .panel-story .panel-heading, .panel-story .panel-body, .panel-story .panel-footer {
+    background-color: inherit;
+    border: none;
+    box-shadow: none;
+    font-family: Verdana; }
+
+.button-group-story-action {
+  margin-top: 1.5em;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+
+.btn-story-action {
+  white-space: normal;
+  margin: 0.4em 0.2em 0 0;
+  font-family: Verdana;
+  font-size: .95em; }
+  @media (max-width: 767px) {
+    .btn-story-action {
+      width: calc(100% - 1em); } }
+  @media (min-width: 768px) {
+    .btn-story-action {
+      width: calc(49% - .2em);
+      margin: 0.6em 0.2em 0 0; } }

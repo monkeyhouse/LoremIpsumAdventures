@@ -1,0 +1,113 @@
+﻿
+.top-element{
+   margin-top: 10px;
+}
+
+.flex-baseline{
+    align-items: flex-end;
+}
+.flex-space-between{
+    justify-content:space-between;
+}
+.full-width{
+    width:100%;
+}
+
+    @media(min-width: $screen-sm-min) {
+        .inline-flex-sm {
+            display:inline-flex;
+        }
+        
+        .flex-end-sm{
+            justify-content: flex-end;
+        }
+    }
+
+	@media (max-width: $transform-xs-max) {
+
+        .sm-hide{
+            display:none !important;
+        }
+
+        header{
+            position: fixed;
+            bottom:0;
+        }
+
+        .navbar.navbar-default{
+            margin-bottom: 2px;
+            box-shadow:0 0 1px 1px black; 
+        }
+    }
+
+    @media ( max-width: $screen-sm-max){
+        .inline-block-sm{
+            display:inline-block;
+        }
+    }
+  
+	@media (min-width: $transform) {
+	  .sidebar-nav .navbar .navbar-collapse {
+		padding: 0;
+		max-height: none;
+	  }
+	  .sidebar-nav .navbar ul {
+		float: none;
+	  }
+	  .sidebar-nav .navbar ul:not {
+		display: block;
+
+	  }
+	  .sidebar-nav .navbar li {
+		float: none;
+		display: block;
+	  }
+	  .sidebar-nav .navbar li a {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	  }
+	}
+	@media (min-width: $transform) {
+	  /* uncomment if you would like the menu to be fixed */
+	  /* .navbar {
+		  position: fixed;
+		  width: 170px;
+		  z-index: 2;
+	  } */
+	}
+	@media (min-width: $screen-md-min) {
+	  .navbar {
+		 max-width: 212px;
+	  }
+
+      .text-right-md{
+            text-align:right;
+       }
+
+       .text-left-md{
+            text-align:left;
+       }
+	}
+	@media (min-width: 1200px) {
+	  .navbar {
+		 max-width: 262px;
+	  }
+	}
+
+	.sidebar-nav .navbar-header{ float: none; }
+
+
+      /* header styles */
+    .profile-icon {
+        width:40px;
+        height:40px;
+        border-radius:50%;
+    }
+
+    /* title styles */
+   .title-soft{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        max-width: calc(100% - 80px);
+    }

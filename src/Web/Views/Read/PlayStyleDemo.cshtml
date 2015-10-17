@@ -1,0 +1,73 @@
+﻿@model Models.StoryVm
+
+@{ 
+    ViewData["Title"] = "Donec id justo. Nunc nonummy metus.Pellentesque";
+}
+
+
+<div class="row container-story">
+    <div class="panel panel-default panel-story" style="max-width:600px">
+
+        <div class="panel-body">
+            <h2>
+                Phasellus dolor. Duis vel nibh at velit scelerisque suscipit.
+            </h2>
+
+            <p> published one year ago to Magical Realism</p>
+
+            <p> created by user12312321, user12312312</p>
+            <button type="button" class="btn btn-default btn-lg">
+                Play
+            </button>
+        </div>
+
+        <div class="panel-footer">
+
+        </div>
+    </div>
+</div>
+
+<div class="row container-story">
+    <div class="panel panel-default panel-story"  style="max-width:600px">
+     
+        <div class="panel-body">
+            <div style="white-space:pre-line"
+               >Donec id justo. Nunc nonummy metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+                Phasellus dolor. Duis vel nibh at velit scelerisque suscipit. Vivamus aliquet elit ac nisl.
+
+                Donec vitae orci sed dolor rutrum auctor. Nam at tortor in tellus interdum sagittis. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.
+            </div>
+
+            <nav class="button-group-story-action">          
+                <button class="btn btn-default btn-story-action" 
+                        repeat.for="a of actions">
+                    Phasellus dolor. Duis vel nibh at velit scelerisque suscipit.
+                </button>
+                <button class="btn btn-default btn-story-action"
+                        repeat.for="a of actions">
+                    Phasellus dolor. Duis vel nibh at velit scelerisque suscipit.
+                    Phasellus dolor. Duis vel nibh at velit scelerisque suscipit.
+                    Phasellus dolor. Duis vel nibh at velit scelerisque suscipit.
+                </button>
+                <button class="btn btn-default btn-story-action"
+                        repeat.for="a of actions">
+                    Phasellus dolor. Duis vel nibh at velit scelerisque suscipit.
+                </button>
+            </nav>
+        </div>
+
+        <div class="panel-footer">
+            <div class="game-page-number text-right">
+                <span class="game-theme soft-caps">1</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section styles{
+    <link href="~/style/css/spa/aurelia.css" rel="stylesheet" />
+    <link href="~/style/css/spa/play.css" rel="stylesheet" />
+}

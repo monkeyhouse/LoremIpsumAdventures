@@ -1,0 +1,36 @@
+﻿<template>
+
+    <form>
+        <div class="row container-story">
+            <div class="panel panel-default panel-story" style="max-width:600px">
+
+                <div class="panel-body">
+                    <h2>${title}</h2>
+
+
+                    <br />
+
+                    <p> published one year ago to ${genres.join(", ")}</p>
+
+                    <p>
+                        created by
+                        <span repeat.for="a of authors">
+                            <a href.bind="a.profileUrl">${a.name}</a>
+                            ${ $last ? '' : ', '}
+                        </span>
+                    </p>
+
+                    <button type="submit" tabindex="1"  click.delegate="next()"class="btn btn-default btn-lg">
+                        Continue
+                    </button>
+
+                </div>
+
+                <div class="panel-footer">
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</template>

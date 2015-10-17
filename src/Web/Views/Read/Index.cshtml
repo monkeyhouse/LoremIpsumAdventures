@@ -1,0 +1,91 @@
+﻿
+@using XPagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewData["Title"] = "Read";
+}
+
+<div>
+    <span style="font-size:2.5em">
+
+        @Html.DropDownList("genre", ViewBag.Genres as IEnumerable<SelectListItem>, null, new { @class = "select-borderless" })
+
+    </span>
+    <ul class="nav nav-pills page-top-pills">
+
+        @{foreach (var f in Enum.GetValues(typeof(Enums.TopicFitler)).Cast<Enums.TopicFitler>())
+            {
+
+                <li class="@(f.ToString() == ViewBag.SelectedFilter ? "active" : "" )">
+                    <a asp-action="Index" asp-route-filter="@f.ToString()" asp-route-genre="@ViewBag.SelectedGenre.Value">@f.ToString()</a>
+                </li>
+
+            } }
+    </ul>
+
+</div>
+
+
+<br />
+@*<h2>List of Stories</h2>*@
+
+@{ foreach (var s in ViewBag.OnePageOfStories as IEnumerable<Models.StoryVm>)
+    {
+
+        <div class="row">
+
+
+            <div class="col-lg-10" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #f4f4f4; ">
+
+                <div>
+
+                    <div class="inline-flex flex-space-between full-width" story-id="@s.Id" story-title="@s.Title">
+                        <a asp-action="Details" asp-route-storyId="@s.Id"><h4>@s.Title</h4></a>
+                        <a class="modal-preview-marker" title="open story preview"><span class="glyphicon glyphicon-modal-window"></span></a>
+                    </div>
+
+
+                    <div>@s.Summary</div>
+
+                    <div class="text-muted inline-flex">
+                        <span up-votes="@s.Likes" down-votes="@s.Dislikes"></span>
+
+                        <span style="font-size:.9em; color:dimgrey">
+
+
+                            published <span human-date="@s.PublishDate"></span> to @s.Genre
+
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    }}
+
+<!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfStories, page => Url.Action("Index", new { page, filter = ViewBag.SelectedFilter, genre = ViewBag.SelectedGenre.Value }))
+
+
+<!-- Story Preview Modal-->
+@Html.Partial("PreviewModal")
+
+@section scripts{
+    <script>
+        $('#genre').change(function () {
+            var genres = $(this).val();
+            var url = "@Url.Action("Index", new { filter = ViewBag.SelectedFilter })" + '&genre=' + genres;
+            console.log(url);
+            window.location = url;
+        });
+
+    </script>
+
+    @Html.Partial("PreviewScript")
+   
+
+}

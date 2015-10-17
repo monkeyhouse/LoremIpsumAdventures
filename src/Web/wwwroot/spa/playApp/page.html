@@ -1,0 +1,50 @@
+﻿<template>
+
+
+    <div class="row container-story">
+        <div class="panel panel-default panel-story" style="max-width:600px">
+            <div class="panel-heading hidden-xs">
+                
+                <div class="game-page-number text-right">
+                    <span class="game-theme soft-caps">${pageNumber}</span>
+                </div>
+
+            </div>
+
+            <div class="panel-body">
+                <div style="white-space:pre-line">${text}</div>
+                
+                <div if.bind ="completedText != ''">
+                    
+                    <br />
+                    <button class="btn btn-default btn-lg" click.delegate="redirectAfterComplete()" tabindex="1">
+                        <em>El Fin. Continue to reviews & more </em>
+                    </button>
+
+                    <br />
+
+                    ${completedText}                
+                </div>
+
+                <nav class="button-group-story-action">
+                    <button class="btn btn-default btn-story-action" 
+                            repeat.for="a of actions"
+                            tabindex="${$index + 1}"
+                            click.delegate="$parent.next(a.pageId)">
+                            ${a.text}
+                    </button>               
+                </nav>
+            </div>
+
+            <div class="panel-footer visible-xs">             
+                <div class="game-page-number text-right">
+                    <span class="soft-caps">1</span>                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</template>

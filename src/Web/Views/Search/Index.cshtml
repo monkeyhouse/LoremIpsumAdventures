@@ -1,0 +1,371 @@
+﻿@using XPagedList.Mvc;
+@using PagedList;
+@using Web.Util;
+
+@model Models.Search.SearchModel
+
+@{
+    ViewBag.Title = "Search";
+
+
+    var i = 1;
+
+    var selectedGenres = Model.Genres.Where(t => t.Selected).Select(t => t.Value);
+    var selectedGenresUrl = String.Join("~", selectedGenres);
+    var selectedGenresJsString = String.Join(",", selectedGenres);
+}
+
+<form id="SearchForm">
+    <div class="row">
+
+        <div class="col-sm-8 col-md-9">
+
+            <div class="panel text-center" style="box-shadow:none; margin-bottom:0;">
+                <div class="form-group panel-body" style="margin-bottom:0;">
+                    <div class="row">
+                        <div class="col-xs-12 input-group" style="margin-bottom:0;">
+
+                            <input type="text" id="SearchQ" placeholder="" class="form-control input-lg" tabindex="@(i++)" value="@Model.Q">
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-lg" type="submit" tabindex="7"><i class="glyphicon glyphicon-search"></i></button>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+
+            <div class="btn-group" data-toggle="buttons" id="SearchTypes">
+                <label class="btn btn-default @( Model.Type == "Stories" ? "active" : "")">
+                    <input type="radio" autocomplete="off" value="Stories" name="type" tabindex="@(i++)" @( Model.Type == "Stories" ? "checked" : "") />  Stories
+                </label>
+                <label class="btn btn-default @( Model.Type == "Users" ? "active" : "")">
+                    <input type="radio" autocomplete="off" value="Users" name="type" tabindex="@(i++)" @( Model.Type == "Users" ? "checked" : "")> Users
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" id="SearchControls">
+
+
+        <div class="col-sm-6">
+            <div class="btn-group btn-group-justified">
+                <div id="SearchGenres" class="btn-group">
+                    @Html.DropDownList("genre", Model.Genres, new { multiple = "multiple", size = Model.Genres.Count(), id = "Genres", style = "display:none;" })
+                </div>
+                <div class="btn-group">
+                    <button type="button" id="ClearGenres" class="btn btn-default" tabindex="@(i++)">Clear</button>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="col-sm-6">
+
+            <div class="dropdown " id="SearchSort">
+                <div class="btn btn-default" style="width:100%" data-toggle="dropdown" tabindex="@(i++)">
+                    <span>Sort By</span><span id="SearchSortSelected" value="@Model.SelectedSortOption?.Value"> : @(Model.SelectedSortOption?.Text )</span>
+                    <span class="caret"></span>
+                </div>
+
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+
+                    @foreach (var m in Model.SortOptions)
+                    {
+                        var val = Convert.ToUInt32(m.Value);
+                        var cssClass = "";
+
+                        if (val > 0 & val < 6)
+                        {
+                            cssClass = "story-option";
+                        }
+                        else if (val > 6)
+                        {
+                            cssClass = "user-option";
+                        }
+
+                        <li class="@cssClass"><a value="@m.Value" tabindex="0">@m.Text</a></li>
+                    }
+
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-sm-6">
+        There are @(ViewBag.ResultCount) results
+    </div>
+</div>
+
+<div id="SearchResults_@(Model.Type)">
+
+
+    @if (Model.Type == Models.Search.SearchModel.UsersType)
+    {
+        @foreach (var u in (ViewBag.OnePage as IEnumerable<Models.Search.UserSearchVm>))
+        {
+            <hr />
+            <div class="row">
+                <div class="col-sm-8">
+                    <a asp-controller="Profile" asp-action="Summary" asp-route-userId="@u.Id"><h4 class="title-inline">@u.Name</h4></a>
+                    <div>
+                        active <span human-date="@u.LastActive"></span> & joined <span human-date="@u.JoinDate"></span>
+                    </div>
+
+                </div>
+                <div class="col-sm-4 text-muted padding-custom inline-flex">
+                    @if (u.StoriesWrittenTo > 0)
+                    { <span title="@u.StoriesWrittenTo contributions">@u.StoriesWrittenTo <span class="glyphicon glyphicon-book"></span></span> }
+                    @if (u.Followers > 0)
+                    { <span title="@u.Followers followers">@u.Followers <span class="glyphicon glyphicon-user"></span></span> }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+
+        @foreach (var s in ViewBag.OnePage as IEnumerable<Models.StoryVm>)
+        {
+           <div class="row">
+               <div class="col-md-12 col-lg-11"><hr /></div>
+           </div>
+            <div class="row">
+                
+                <div class="col-md-5 col-lg-6">
+                    <div class="inline-flex flex-space-between full-width">
+                        <a asp-controller="Read" asp-action="Details" asp-route-storyId="@s.Id" class="link-inline preview-marker" story-id="@s.Id">
+                            <h4 title="@String.Join("\r\n",s.Description.SplitInParts(100))" class="title-inline">@s.Title</h4>
+                        </a>
+                    </div>
+
+
+                    <div>
+                        published <span human-date="@s.PublishDate"></span> &
+                        updated <span human-date="@s.LastUpdated"></span>                        
+                    </div>
+                </div>
+
+                <div class="col-md-7 col-lg-5 padding-custom text-muted inline-flex" style="justify-content:flex-end; align-items:flex-start;">
+                    <span>
+                        @foreach (var g in s.Genres)
+                        {
+                            <div class="text-right inline-block-sm">@g<span class="inline-block-sm">&nbsp;&nbsp;</span></div>
+
+                        }
+                    </span>
+                    <span class="modal-preview-marker flex-right-sm" title="open story preview"><span class="glyphicon glyphicon-modal-window"></span></span>
+                    <span num-favorites="@s.Favorites"></span>
+                    <span up-votes="@s.Likes" down-votes="@s.Dislikes"></span>
+                </div>
+            </div>
+
+        }
+    } @* end if *@
+
+
+
+
+    <!-- output a paging control that lets the user navigation to the previous page, next page, etc -->
+    @Html.PagedListPager((IPagedList)ViewBag.OnePage, page => Url.Action("Index", new { p = page, type = Model.Type, genres = selectedGenresUrl, sort = Model.SelectedSortOption?.Value }))
+
+
+</div>
+
+<!-- Story Preview Modal-->
+@Html.Partial("PreviewModal")
+
+
+@section scripts{
+    <script src="~/lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+
+    <script type="text/javascript">
+
+
+        var initSelected = [@selectedGenresJsString];
+        var selected = initSelected;
+        $(document).ready(function () {
+
+            $('#Genres').multiselect({
+                maxHeight: 300,
+                nonSelectedText: 'All genre(s)',
+                numberDisplayed: 2,
+
+                onChange: function (element, checked) {
+                    var opts = $('#Genres option:selected');
+                    selected = [];
+                    $(opts).each(function (index, brand) {
+                        selected.push($(this).val());
+                    });
+
+                },
+                onDropdownHide: function () {
+                    if (selected != initSelected) {
+                        ExecuteSearch();
+                    }
+
+                }
+            });
+
+            $('.multiselect').attr('tabIndex', $('#ClearGenres').attr('tabIndex'));
+
+            $('#SearchGenres .multiselect-container').keydown(function (e) {
+                if (e.which == 9) { // tab
+                    $('.multiselect').focus();
+                }
+            })
+
+            $('#ClearGenres').click(function () {
+
+                $('#Genres option:selected').each(function () {
+                    $(this).prop('selected', false);
+                });
+
+                $('#Genres').multiselect('refresh');
+
+                selected = [];
+            });
+
+            //do throttler
+            $('#SearchQ').change(ExecuteSearch);
+
+            $('#SearchTypes input').change(ExecuteSearch);
+            $('#SearchSort ul a').click(function () {
+                var val = this.getAttribute('value');
+                var order = this.getAttribute('order');
+                var text = ' : ' + this.innerHTML;
+
+                var currVal = document.getElementById('SearchSortSelected').getAttribute('value');
+                if (val != currVal) {
+                    $('#SearchSortSelected').html(text).attr('value', val);
+                    ExecuteSearch();
+                }
+            });
+
+
+            $('#SearchForm').submit(function (e) {
+                e.preventDefault();
+
+                ExecuteSearch();
+            })
+
+            var page = 1;
+
+            //load
+            if ($("#SearchTypes input:checked").val() == "Stories") {
+                $('.user-option').toggle();
+            } else {
+                $('.story-option').toggle();
+            }
+            $("#SearchTypes input").change(function () {
+                $('.story-option, .user-option').toggle();
+            })
+
+
+            function ExecuteSearch() {
+
+                var q = $('#SearchQ').val();
+                var type = $('#SearchTypes input:checked').val();
+                var sortValue = $('#SearchSortSelected').attr('value');
+
+                var data = {
+                    q: q,
+                    type: type,
+                    genres: selected.join('~'),
+                    sort: sortValue,
+                    page: 1
+                };
+
+                var dataVals = {};
+                for (var i in data) {
+                    if (data[i] != null & data[i] != '') {
+                        dataVals[i] = data[i];
+                    }
+                }
+
+                var href = window.location.href;
+                var end = href.indexOf('?') > 0 ? href.indexOf('?') : href.length;
+
+                var url = href.substring(0, end) + '?' + $.param(dataVals);
+
+                window.location = url;
+                //set window url with query string
+            }
+
+            $("#SearchSort .btn").keydown(function (e) {
+                if (e.which == 13) { // enter
+                    setTimeout(function () {
+                        $("#SearchSort a:first").focus();
+                    }, 100);
+                }
+            });
+
+            $("#SearchSort a").keydown(function (e) {
+                if (e.which == 13) { // enter
+                    $(this).click();
+                    $("#SearchSort .btn").focus();
+                }
+
+            });
+
+
+        });
+
+
+    </script>
+
+
+    @Html.Partial("PreviewScript")
+}
+@section styles{
+
+    <link href="~/lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" rel="stylesheet" />
+    <style>
+        .padding-custom > span {
+            margin-top: 1em;
+            padding-right: 2em;
+        }
+
+        #MenuSearch {
+            display: none;
+        }
+
+        #SearchControls > div {
+            margin-bottom: 10px;
+        }
+
+        #SearchTypes {
+            margin: 22px auto;
+        }
+
+            #SearchTypes .btn {
+                border-radius: 4px;
+                margin: 0 3px 0px 3px;
+            }
+
+        #SearchGenres {
+            width: 70%;
+        }
+
+            #SearchGenres ~ div {
+                width: 30%;
+                border-radius: 0;
+            }
+
+            #SearchGenres .btn-group, #SearchGenres .multiselect {
+                min-width: 100%;
+                border-radius: 3px 0 0 3px;
+                border-right: 0;
+            }
+    </style>
+}

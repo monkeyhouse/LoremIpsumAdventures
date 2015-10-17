@@ -1,0 +1,42 @@
+﻿@using Models.Profile;
+@model Models.Profile.ProfileSummaryVm
+
+
+<div class="row"  id="Stories">
+    <div class="col-md-12 col-lg-11">
+
+        <ul class="nav nav-tabs" id="StorySort">
+            <li class="@(Model.StorySort == ProfileStorySort.Top ? "active" : "")"         value="@ProfileStorySort.Top"       >         <a>Top        </a></li>
+            <li class="@(Model.StorySort == ProfileStorySort.Newest ? "active" : "")"      value="@ProfileStorySort.Newest"    >      <a>Newest     </a></li>
+            <li class="@(Model.StorySort == ProfileStorySort.InProgress ? "active" : "")"  value="@ProfileStorySort.InProgress">  <a>In Progress</a></li>
+            @*<li class="pull-right">@Html.Partial("ProfileStats", Model.Stats)</li>*@
+        </ul>
+
+        <div class="list-group list-group-custom">
+
+            @foreach (var s in Model.Stories)
+            {
+                <a asp-controller="Read" asp-action="Details" asp-route-storyId="@s.Id" class="list-group-item preview-marker" story-id="@s.Id">
+                    <div class="row">
+                        <div class="col-xs-9">
+                            @s.Title
+                        </div>
+                        <span class="text-right icon-flexbox col-xs-3">
+                            <span class="modal-preview-marker" title="open story preview"><span class="glyphicon glyphicon-modal-window"></span></span>
+                            <span>@s.Favorites <span class="glyphicon glyphicon-heart"></span></span>
+                            <span> @s.Likes <span class="glyphicon glyphicon-thumbs-up"></span></span>
+
+                        </span>
+                    </div>
+                </a>
+            }
+        </div>
+        <span class="pull-right"> <a asp-controller="Profile" asp-action="AllStories">More</a></span>
+
+
+
+    </div>
+
+
+</div>
+

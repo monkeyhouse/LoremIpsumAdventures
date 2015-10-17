@@ -1,0 +1,44 @@
+{
+  "name": "ASP.NET",
+  "version": "0.0.0",
+  "devDependencies": {
+    "gulp": "3.8.11",
+    "gulp-concat": "2.5.2",
+    "gulp-cssmin": "0.1.7",
+    "gulp-uglify": "1.2.0",
+    "gulp-sass": "2.0.4",
+    "aurelia-bundler": "^0.1.7",
+    "rimraf": "2.2.8"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "wwwroot"
+    },
+    "dependencies": {
+      "aurelia-binding": "github:aurelia/binding@^0.10.1",
+      "aurelia-bootstrapper": "github:aurelia/bootstrapper@^0.18.0",
+      "aurelia-dependency-injection": "github:aurelia/dependency-injection@^0.11.2",
+      "aurelia-event-aggregator": "github:aurelia/event-aggregator@^0.9.0",
+      "aurelia-framework": "github:aurelia/framework@^0.17.0",
+      "aurelia-history": "github:aurelia/history@^0.8.0",
+      "aurelia-history-browser": "github:aurelia/history-browser@^0.9.0",
+      "aurelia-loader": "github:aurelia/loader@^0.10.0",
+      "aurelia-loader-default": "github:aurelia/loader-default@^0.11.2",
+      "aurelia-logging": "github:aurelia/logging@^0.8.0",
+      "aurelia-metadata": "github:aurelia/metadata@^0.9.0",
+      "aurelia-path": "github:aurelia/path@^0.10.0",
+      "aurelia-route-recognizer": "github:aurelia/route-recognizer@^0.8.0",
+      "aurelia-router": "github:aurelia/router@^0.13.0",
+      "aurelia-task-queue": "github:aurelia/task-queue@^0.8.0",
+      "aurelia-templating": "github:aurelia/templating@^0.16.0",
+      "aurelia-templating-binding": "github:aurelia/templating-binding@^0.16.1",
+      "aurelia-templating-resources": "github:aurelia/templating-resources@^0.16.1",
+      "aurelia-templating-router": "github:aurelia/templating-router@^0.17.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.21",
+      "babel-runtime": "npm:babel-runtime@^5.8.20",
+      "core-js": "npm:core-js@^1.0.0"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Models.StoryVm>
+
+    @{ foreach (var s in Model)
+        {
+
+            <div class="row">
+
+
+                <div class="col-lg-10" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #f4f4f4; ">
+
+                    <div>
+
+                        <h4>@s.Title</h4>
+
+                        <div class="preview-marker">
+                            <div style="">@s.Summary</div>
+                        </div>
+
+                        <span up-votes="@s.Likes" down-votes="@s.Dislikes"></span>
+                        <span style="font-size:.9em; color:dimgrey">
+
+
+                            published <span human-date="@s.PublishDate"></span> to @s.Genre
+
+                        </span>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        }}
